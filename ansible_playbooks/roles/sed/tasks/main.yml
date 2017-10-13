@@ -15,24 +15,75 @@
 - name: Install python setup tools
   yum:
     name: python-setuptools
+  sudo: true
 
 - name: Install Pypi
   easy_install: 
     name: pip
+  sudo: true
+
+- name: Install virtualenv
+  pip:
+    name: virtualenv
+  sudo: true
 
 - name: Install docker-py
   pip:
     name: docker-py
+  sudo: true
 
 - name: Install docker
   yum:
     name: docker
     state: latest
+  sudo: true
 
-- name: Make sure Docker is running
+- name: Ensure docker deamon is running
   service:
     name: docker
-    state: running
+    state: started
+  become: true
+
+- name: Ensure My docker container is running
+  docker_container:
+    name: testing
+    image: busybox
+    state: started
+  become: true
+
+- name: Git clone SED-Documentations
+  git:
+    repo: https://github.com/ScoutEngineeringDay/SED-Documentations.git
+    dest: /home/vagrant/SED-Doc
+    update: true
+
+- name: Git clone SED-Database-test
+  git:
+    repo: https://github.com/ScoutEngineeringDay/SED-Database-Test.git
+    dest: /home/vagrant/SED-Db-scripts
+    update: true
+
+- name: pull a mysql image
+  docker_image:
+    name: mysql
+  sudo: true
+
+- name: Create a data container
+  docker_container:
+    name: sed-db
+    image: mysql
+    exposed_ports:
+      - 3306
+    volumes:
+      - /data
+  sudo: true
+
+
+- name: Git clone SED-Web-Applications
+  git:
+    repo: https://github.com/ScoutEngineeringDay/SED-Web-Application.git
+    dest: /home/vagrant/SED-Web
+    update: true
 
 
 

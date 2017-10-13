@@ -3,7 +3,7 @@
 # Ansible playbook
 ---
 - name: setup Scout Engineering Day
-  hosts: SED-dev
+  hosts: SED_Dev_Box
   roles:
     - { role: sed }
    
