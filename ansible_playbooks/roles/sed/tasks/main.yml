@@ -1,0 +1,43 @@
+# Application: Scout Engineering Day
+# Author: Walter Hiranpat
+# Ansible tasks playbook
+
+---
+- name: Install yum package
+  yum:
+    pkg: "{{ item }}"
+  with_items:
+    - nano
+    - curl
+    - git
+  sudo: true
+
+- name: Install python setup tools
+  yum:
+    name: python-setuptools
+
+- name: Install Pypi
+  easy_install: 
+    name: pip
+
+- name: Install docker-py
+  pip:
+    name: docker-py
+
+- name: Install docker
+  yum:
+    name: docker
+    state: latest
+
+- name: Make sure Docker is running
+  service:
+    name: docker
+    state: running
+
+
+
+
+
+
+
+
