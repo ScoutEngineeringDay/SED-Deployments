@@ -1,0 +1,43 @@
+# Application: Scout Engineering Day
+# Author: Walter Hiranpat
+# Ansible playbook
+---
+- hosts: all
+  vars: 
+  remote_user: all
+  tasks:
+    # # SED documentation: documents to be modify and update
+    # - name: clone SED-documentations
+    #   git:
+    #     repo: 'https://github.com/ScoutEngineeringDay/SED-documentations.git'
+    #     dest: .
+    #     clone: yes
+    #     update: yes
+    # # SED database: create container and populate database with testscript
+    # - name: clone SED-database-testscripts
+    #   git:
+    #     repo:
+    #     dest:
+    #     clone:
+    #     update:
+    # - name: create docker container
+    
+    # # SED application: clone and deploy
+    # - name: clone application
+    #   git:
+    #     repo: 'https://github.com/ScoutEngineeringDay/SED-Web-Application.git'
+    #     dest: .
+    #     clone: yes
+    #     update: yes
+    # # 
+    - name: data container
+      docker:
+        name: mydata
+        image: busybox
+        state: present
+        volumes:
+        - /data
+    
+
+    
+    
