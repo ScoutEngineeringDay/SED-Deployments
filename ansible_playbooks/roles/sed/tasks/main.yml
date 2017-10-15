@@ -10,16 +10,9 @@
     - nano
     - curl
     - git
-  sudo: true
-
-- name: Install python setup tools
-  yum:
-    name: python-setuptools
-  sudo: true
-
-- name: Install Pypi
-  easy_install: 
-    name: pip
+    - python-pip
+    - python-psycopg2
+    - python-setuptools
   sudo: true
 
 - name: Install virtualenv
@@ -44,51 +37,75 @@
     state: started
   become: true
 
-- name: Ensure My docker container is running
-  docker_container:
-    name: testing
-    image: busybox
-    state: started
-  become: true
+#------Setup Application-------#
+- name: create docker consul
+  docker:
+    image: consul:latest
+    name: consul
+  sudo: true
 
+#------Setup Application-------#
+- name: create docker vault
+  docker:
+    image: vault:latest
+    name: vault
+  sudo: true
+
+#------Setup Application-------#
 - name: Git clone SED-Documentations
   git:
     repo: https://github.com/ScoutEngineeringDay/SED-Documentations.git
     dest: /home/vagrant/SED-Doc
     update: true
 
+#------Setup Application-------#
 - name: Git clone SED-Database-test
   git:
     repo: https://github.com/ScoutEngineeringDay/SED-Database-Test.git
     dest: /home/vagrant/SED-Db-scripts
     update: true
 
-- name: pull a mysql image
-  docker_image:
-    name: mysql
+- name: start the mysql container
+  docker:
+    image: mysql:latest
+    name: mysql_DB
+    publish_all_ports: True
+    env:
+      MYSQL_USER: sed_admin
+      MYSQL_ROOT_PASSWORD: sed_password
   sudo: true
 
-- name: Create a data container
-  docker_container:
-    name: sed-db
-    image: mysql
-    exposed_ports:
-      - 3306
-    volumes:
-      - /data
-  sudo: true
-
-
+#------Setup Application-------#
 - name: Git clone SED-Web-Applications
   git:
     repo: https://github.com/ScoutEngineeringDay/SED-Web-Application.git
     dest: /home/vagrant/SED-Web
     update: true
 
+# - name: Start SED-Web-Application Container
+#   docker:
+#     image
 
+#------Setup Presentation: Introduction-------#
+# - name: Introduction presentation
+#   docker:
+#     image: nbrown/revealjs
+#     name: IntroductionPresentation
+#     ports: 
+#     - 8000:9000
+#     volumes:
+#     - /home/vagrant/SED-Doc/presentation1/index.html:reveal.js/index.html
+#     - /home/vagrant/SED-Doc/presentation1/media:/reveal.js/media
+#     - /home/vagrant/SED-Doc/presentation1/css:/reveal.js/css
+#     - /home/vagrant/SED-Doc/plugin:/reveal.js/css
+#     - /home/vagrant/SED-Doc/presentation1/md:/reveal.js/md
 
+#------Setup Presentation: Database-------#
 
+#------Setup Presentation: DevOps-------#
 
+#------Setup Presentation: Application-------#
 
+#------Setup Presentation: Training-------#
 
-
+#------Setup Presentation: Final-------#
