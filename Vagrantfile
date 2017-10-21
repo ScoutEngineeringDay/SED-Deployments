@@ -13,7 +13,16 @@ Vagrant.configure("2") do |config|
     sed.vm.box = "centos/7"
     # Configure Virtualbox VM network
     sed.vm.network :private_network, ip: "10.1.1.33"
-    sed.vm.network "forwarded_port", guest:5432, host:5432
+    # Open Ports for host to connect to virtual machine's containers
+    # Consul
+    # Vault
+    # Django
+    # MySQL
+    # Presentation
+    #
+    sed.vm.network "forwarded_port", guest:3306, host:3306
+    sed.vm.network "forwarded_port", guest:8000, host:8080
+    sed.vm.network "forwarded_port", guest:80, host:8081
     sed.ssh.forward_agent = true
     
     # Configure Virtualbox VM Specifications

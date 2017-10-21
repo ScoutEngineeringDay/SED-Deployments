@@ -56,6 +56,7 @@
   git:
     repo: https://github.com/ScoutEngineeringDay/SED-Documentations.git
     dest: /home/vagrant/SED-Doc
+    accept_hostkey: true
     update: true
 
 #------Setup Application-------#
@@ -63,13 +64,14 @@
   git:
     repo: https://github.com/ScoutEngineeringDay/SED-Database-Test.git
     dest: /home/vagrant/SED-Db-scripts
+    accept_hostkey: true
     update: true
 
 - name: start the mysql container
   docker:
     image: mysql:latest
-    name: mysql_DB
-    publish_all_ports: True
+    name: sed_database
+    publish_all_ports: true
     env:
       MYSQL_USER: sed_admin
       MYSQL_ROOT_PASSWORD: sed_password
@@ -80,11 +82,24 @@
   git:
     repo: https://github.com/ScoutEngineeringDay/SED-Web-Application.git
     dest: /home/vagrant/SED-Web
+    accept_hostkey: true
     update: true
 
-# - name: Start SED-Web-Application Container
-#   docker:
-#     image
+- name: create sed image
+  docker_image:
+    name: sed_image
+    tag: latest
+    path: /home/vagrant/SED-Web/
+    state: build
+  sudo: true
+
+- name: Start SED-Web-Application Container
+  docker:
+    image: sed_image:latest
+    name: sed_website
+    publish_all_ports: true
+  sudo: true
+
 
 #------Setup Presentation: Introduction-------#
 # - name: Introduction presentation
