@@ -73,6 +73,7 @@
     name: sed_database
     publish_all_ports: true
     env:
+      MYSQL_DATABASE: sed_database
       MYSQL_USER: sed_admin
       MYSQL_ROOT_PASSWORD: sed_password
   sudo: true
