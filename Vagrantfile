@@ -33,6 +33,8 @@ Vagrant.configure("2") do |config|
       vbox.cpus = 2
     end
 
+    sed.vm.synced_folder ".", "/vagrant", type: "rsync"
+
     # Configure Ansible Configuration script
     # Note: run Ansible within the vagrant therefore will not need to install Ansible onto Host machine
     sed.vm.provision "ansible_local" do |ansible|

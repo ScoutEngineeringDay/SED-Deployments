@@ -99,23 +99,25 @@
     image: sed_image:latest
     name: sed_website
     publish_all_ports: true
+    links:
+      
   sudo: true
 
 
 #------Setup Presentation: Introduction-------#
-# - name: Introduction presentation
-#   docker:
-#     image: nbrown/revealjs
-#     name: IntroductionPresentation
-#     ports: 
-#     - 8000:9000
-#     volumes:
-#     - /home/vagrant/SED-Doc/presentation1/index.html:reveal.js/index.html
-#     - /home/vagrant/SED-Doc/presentation1/media:/reveal.js/media
-#     - /home/vagrant/SED-Doc/presentation1/css:/reveal.js/css
-#     - /home/vagrant/SED-Doc/plugin:/reveal.js/css
-#     - /home/vagrant/SED-Doc/presentation1/md:/reveal.js/md
-
+- name: Introduction presentation
+  docker:
+    image: nbrown/revealjs
+    name: SED-Kick-Off-Presentation
+    ports: 
+    - 8000:9000
+    volumes:
+    - /home/vagrant/SED-Doc/presentations/SED-Presentation1-Kick-Off/index.html:reveal.js/index.html
+    - /home/vagrant/SED-Doc/presentations/SED-Presentation1-Kick-Off/media:/reveal.js/media
+    - /home/vagrant/SED-Doc/presentations/SED-Presentation1-Kick-Off/css:/reveal.js/css
+    - /home/vagrant/SED-Doc/presentations/plugin:/reveal.js/plugin
+    - /home/vagrant/SED-Doc/presentations/SED-Presentation1-Kick-Off/md:/reveal.js/md
+  sudo: true
 #------Setup Presentation: Database-------#
 
 #------Setup Presentation: DevOps-------#
