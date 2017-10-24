@@ -13,23 +13,23 @@
     - python-pip
     - python-psycopg2
     - python-setuptools
-  sudo: true
+  become: true
 
 - name: Install virtualenv
   pip:
     name: virtualenv
-  sudo: true
+  become: true
 
 - name: Install docker-py
   pip:
     name: docker-py
-  sudo: true
+  become: true
 
 - name: Install docker
   yum:
     name: docker
     state: latest
-  sudo: true
+  become: true
 
 - name: Ensure docker deamon is running
   service:
@@ -42,14 +42,14 @@
   docker:
     image: consul:latest
     name: consul
-  sudo: true
+  become: true
 
 #------Setup Application-------#
 - name: create docker vault
   docker:
     image: vault:latest
     name: vault
-  sudo: true
+  become: true
 
 #------Setup Application-------#
 - name: Git clone SED-Documentations
@@ -76,7 +76,7 @@
       MYSQL_DATABASE: sed_database
       MYSQL_USER: sed_admin
       MYSQL_ROOT_PASSWORD: sed_password
-  sudo: true
+  become: true
 
 #------Setup Application-------#
 - name: Git clone SED-Web-Applications
@@ -92,7 +92,7 @@
     tag: latest
     path: /home/vagrant/SED-Web/
     state: build
-  sudo: true
+  become: true
 
 - name: Start SED-Web-Application Container
   docker:
@@ -101,7 +101,7 @@
     publish_all_ports: true
     links:
       
-  sudo: true
+  become: true
 
 
 #------Setup Presentation: Introduction-------#
@@ -112,12 +112,12 @@
     ports: 
     - 8000:9000
     volumes:
-    - /home/vagrant/SED-Doc/presentations/SED-Presentation1-Kick-Off/index.html:reveal.js/index.html
+    - /home/vagrant/SED-Doc/presentations/SED-Presentation1-Kick-Off/index.html:/reveal.js/index.html
     - /home/vagrant/SED-Doc/presentations/SED-Presentation1-Kick-Off/media:/reveal.js/media
     - /home/vagrant/SED-Doc/presentations/SED-Presentation1-Kick-Off/css:/reveal.js/css
     - /home/vagrant/SED-Doc/presentations/plugin:/reveal.js/plugin
     - /home/vagrant/SED-Doc/presentations/SED-Presentation1-Kick-Off/md:/reveal.js/md
-  sudo: true
+  become: true
 #------Setup Presentation: Database-------#
 
 #------Setup Presentation: DevOps-------#
