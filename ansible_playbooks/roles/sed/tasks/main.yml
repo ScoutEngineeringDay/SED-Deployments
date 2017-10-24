@@ -39,14 +39,14 @@
 
 #------Setup Application-------#
 - name: create docker consul
-  docker:
+  docker_container:
     image: consul:latest
     name: consul
   become: true
 
 #------Setup Application-------#
 - name: create docker vault
-  docker:
+  docker_container:
     image: vault:latest
     name: vault
   become: true
@@ -68,7 +68,7 @@
     update: true
 
 - name: start the mysql container
-  docker:
+  docker_container:
     image: mysql:latest
     name: sed_database
     publish_all_ports: true
@@ -95,7 +95,7 @@
   become: true
 
 - name: Start SED-Web-Application Container
-  docker:
+  docker_container:
     image: sed_image:latest
     name: sed_website
     publish_all_ports: true
@@ -113,7 +113,7 @@
   become: true
 
 - name: Start Kick Off Presentation Container
-  docker:
+  docker_container:
     image: sed_kick_off:latest
     name: sed_kickoff
     publish_all_ports: true
