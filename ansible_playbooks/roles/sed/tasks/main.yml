@@ -112,7 +112,7 @@
     ports: 
     - 8000:9000
     volumes:
-    - /home/vagrant/SED-Doc/presentations/SED-Presentation1-Kick-Off/index.html:reveal.js/index.html
+    - /home/vagrant/SED-Doc/presentations/SED-Presentation1-Kick-Off/index.html:/reveal.js/index.html
     - /home/vagrant/SED-Doc/presentations/SED-Presentation1-Kick-Off/media:/reveal.js/media
     - /home/vagrant/SED-Doc/presentations/SED-Presentation1-Kick-Off/css:/reveal.js/css
     - /home/vagrant/SED-Doc/presentations/plugin:/reveal.js/plugin
