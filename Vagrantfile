@@ -23,6 +23,10 @@ Vagrant.configure("2") do |config|
     sed.vm.network "forwarded_port", guest:3306, host:3306
     sed.vm.network "forwarded_port", guest:8000, host:8080
     sed.vm.network "forwarded_port", guest:80, host:8081
+    sed.vm.network "forwarded_port", guest:9000, host:9000
+    sed.vm.network "forwarded_port", guest:9001, host:9001
+    sed.vm.network "forwarded_port", guest:9002, host:9002
+    sed.vm.network "forwarded_port", guest:9003, host:9003
     sed.ssh.forward_agent = true
     
     # Configure Virtualbox VM Specifications
