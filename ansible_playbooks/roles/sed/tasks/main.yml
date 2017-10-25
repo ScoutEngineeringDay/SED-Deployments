@@ -71,7 +71,8 @@
   docker_container:
     image: mysql:latest
     name: sed_database
-    publish_all_ports: true
+    ports:
+    - 3306:3306
     env:
       MYSQL_DATABASE: sed_database
       MYSQL_USER: sed_admin
@@ -98,7 +99,8 @@
   docker_container:
     image: sed_image:latest
     name: sed_website
-    publish_all_ports: true
+    ports:
+    - 8000:8000
     links:
     - "sed_database"
   become: true
@@ -116,9 +118,8 @@
   docker_container:
     image: sed_kick_off:latest
     name: sed_kickoff
-    publish_all_ports: true
     ports:
-      "9000:8000"
+    - 9000:8000
   become: true
 #------Setup Presentation: Database-------#
 
