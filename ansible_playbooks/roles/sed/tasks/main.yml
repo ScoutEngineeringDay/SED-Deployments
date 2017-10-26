@@ -13,6 +13,7 @@
     - python-pip
     - python-psycopg2
     - python-setuptools
+    - mysql
   become: true
 
 - name: Install virtualenv
@@ -74,10 +75,24 @@
     ports:
     - 3306:3306
     env:
-      MYSQL_DATABASE: sed_database
+      MYSQL_DATABASE: SED_Database
       MYSQL_USER: sed_admin
+      MYSQL_PASSWORD: sed_password
       MYSQL_ROOT_PASSWORD: sed_password
   become: true
+
+- name: Enable execution of script to populate test data
+  file:
+    path: /vagrant/PopulateTestData.sh
+    mode: 0544
+
+- name: Wait for port 3306
+  wait_for:
+    host: 172.17.0.4
+    port: 3306
+
+- name: Run SQL scripts to populate the database with test data
+  command: /vagrant/PopulateTestData.sh /home/vagrant/SED-Db-scripts/SED_DB_TEST_V2/ sed_password sed_database
 
 #------Setup Application-------#
 - name: Git clone SED-Web-Applications
