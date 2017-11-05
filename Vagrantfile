@@ -2,12 +2,12 @@
 # Author: Walter Hiranpat
 # Hashicorp Vagrant
 
-# 
+#
 Vagrant.configure("2") do |config|
   config.ssh.insert_key = false #set same private ssh keys
   config.vm.box_download_insecure = true
   # config.vm.define "SED_Vault" do |vault|
-    
+
   # end
   config.vm.define "SED_Dev_Box" do |sed|
     sed.vm.box = "centos/7"
@@ -28,7 +28,7 @@ Vagrant.configure("2") do |config|
     sed.vm.network "forwarded_port", guest:9002, host:9002
     sed.vm.network "forwarded_port", guest:9003, host:9003
     sed.ssh.forward_agent = true
-    
+
     # Configure Virtualbox VM Specifications
     sed.vm.provider "virtualbox" do |vbox|
       vbox.name = "SED_Dev_Box_vagrant"
@@ -36,8 +36,6 @@ Vagrant.configure("2") do |config|
       vbox.memory = 2048
       vbox.cpus = 2
     end
-
-    sed.vm.synced_folder ".", "/vagrant", type: "rsync"
 
     # Configure Ansible Configuration script
     # Note: run Ansible within the vagrant therefore will not need to install Ansible onto Host machine
