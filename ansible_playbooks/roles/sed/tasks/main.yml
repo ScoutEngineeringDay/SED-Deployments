@@ -53,23 +53,8 @@
   become: true
 
 #------Setup Application-------#
-- name: Git clone SED-Documentations
-  git:
-    repo: https://github.com/{{documentation.githubOwner}}/SED-Documentations.git
-    dest: /home/vagrant/SED-Doc
-    accept_hostkey: true
-    update: true
-    version: "{{documentation.githubBranch}}"
 
 #------Setup Application-------#
-- name: Git clone SED-Database-test
-  git:
-    repo: https://github.com/{{database.githubOwner}}/SED-Database-Test.git
-    dest: /home/vagrant/SED-Db-scripts
-    accept_hostkey: true
-    update: true
-    version: "{{database.githubBranch}}"
-
 - name: start the mysql container
   docker_container:
     image: mysql:latest
@@ -94,22 +79,14 @@
     port: 3306
 
 - name: Run SQL scripts to populate the database with test data
-  command: /vagrant/PopulateTestData.sh /home/vagrant/SED-Db-scripts/{{database.scriptPath}} sed_password sed_database
+  command: /vagrant/PopulateTestData.sh /vagrant/SED-Database-Test/{{database.scriptPath}} sed_password sed_database
 
 #------Setup Application-------#
-- name: Git clone SED-Web-Applications
-  git:
-    repo: https://github.com/{{website.githubOwner}}/SED-Web-Application.git
-    dest: /home/vagrant/SED-Web
-    accept_hostkey: true
-    update: true
-    version: "{{website.githubBranch}}"
-
 - name: create sed image
   docker_image:
     name: sed_image
     tag: latest
-    path: /home/vagrant/SED-Web/
+    path: /vagrant/SED-Web-Application/
     state: build
   become: true
 
@@ -128,7 +105,7 @@
   docker_image:
     name: sed_kick_off
     tag: latest
-    path: /home/vagrant/SED-Doc/presentations/SED-Presentation1-Kick-Off/
+    path: /vagrant/SED-Documentations/presentations/SED-Presentation1-Kick-Off/
     state: build
   become: true
 
