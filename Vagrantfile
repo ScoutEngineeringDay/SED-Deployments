@@ -6,6 +6,7 @@
 Vagrant.configure("2") do |config|
   config.ssh.insert_key = false #set same private ssh keys
   config.vm.box_download_insecure = true
+  config.vm.synced_folder "./", "/vagrant", type: "virtualbox"
   # config.vm.define "SED_Vault" do |vault|
   
   # end
