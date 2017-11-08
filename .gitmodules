@@ -1,9 +1,0 @@
-[submodule "SED-Web-Application"]
-	path = SED-Web-Application
-	url = https://github.com/ScoutEngineeringDay/SED-Web-Application.git
-[submodule "SED-Database-Test"]
-	path = SED-Database-Test
-	url = https://github.com/ScoutEngineeringDay/SED-Database-Test.git
-[submodule "SED-Documentations"]
-	path = SED-Documentations
-	url = https://github.com/ScoutEngineeringDay/SED-Documentations.git

@@ -53,22 +53,34 @@
   become: true
 
 #------Setup Application-------#
-# - name: Git clone SED-Documentations
-#   git:
-#     repo: https://github.com/{{documentation.githubOwner}}/SED-Documentations.git
-#     dest: /vagrant/SED-Doc
-#     accept_hostkey: true
-#     update: true
-#     version: "{{documentation.githubBranch}}"
+- name: check SED-db 
+  stat:
+    path: /vagrant/SED-Documentations
+  register: doc_result
+
+- name: Git clone SED-Documentations
+  git:
+    repo: https://github.com/{{documentation.githubOwner}}/SED-Documentations.git
+    dest: /vagrant/SED-Documentations
+    accept_hostkey: true
+    update: true
+    version: "{{documentation.githubBranch}}"
+  when: doc_result.stat.exists == False
 
 #------Setup Application-------#
-# - name: Git clone SED-Database-test
-#   git:
-#     repo: https://github.com/{{database.githubOwner}}/SED-Database-Test.git
-#     dest: /vagrant/SED-Db-scripts
-#     accept_hostkey: true
-#     update: true
-#     version: "{{database.githubBranch}}"
+- name: check SED-db 
+  stat:
+    path: /vagrant/SED-Database-Test
+  register: db_result
+
+- name: Git clone SED-Database-test
+  git:
+    repo: https://github.com/{{database.githubOwner}}/SED-Database-Test.git
+    dest: /vagrant/SED-Database-Test
+    accept_hostkey: true
+    update: true
+    version: "{{database.githubBranch}}"
+  when: db_result.stat.exists == False
 
 - name: start the mysql container
   docker_container:
@@ -94,16 +106,22 @@
     port: 3306
 
 - name: Run SQL scripts to populate the database with test data
-  command: /vagrant/PopulateTestData.sh /vagrant/SED-Db-scripts/{{database.scriptPath}} sed_password sed_database
+  command: /vagrant/PopulateTestData.sh /vagrant/SED-Database-Test/{{database.scriptPath}} sed_password sed_database
 
 #------Setup Application-------#
-# - name: Git clone SED-Web-Applications
-#   git:
-#     repo: https://github.com/{{website.githubOwner}}/SED-Web-Application.git
-#     dest: /vagrant/SED-Web-Application
-#     accept_hostkey: true
-#     update: true
-#     version: "{{website.githubBranch}}"
+- name: check SED-web
+  stat:
+    path: /vagrant/SED-Web-Application
+  register: web_result
+
+- name: Git clone SED-Web-Applications
+  git:
+    repo: https://github.com/{{website.githubOwner}}/SED-Web-Application.git
+    dest: /vagrant/SED-Web-Application
+    accept_hostkey: true
+    update: true
+    version: "{{website.githubBranch}}"
+  when: web_result.stat.exists == False
 
 - name: create sed image
   docker_image:
@@ -123,71 +141,71 @@
     - "sed_database"
   become: true
 
-#------Setup Presentation: Introduction-------#
-- name: Create Kick Off Presentation Image
-  docker_image:
-    name: sed_kick_off
-    tag: latest
-    path: /vagrant/SED-Documentations/presentations/SED-Presentation1-Kick-Off/
-    state: build
-  become: true
+# #------Setup Presentation: Introduction-------#
+# - name: Create Kick Off Presentation Image
+#   docker_image:
+#     name: sed_kick_off
+#     tag: latest
+#     path: /vagrant/SED-Documentations/presentations/SED-Presentation1-Kick-Off/
+#     state: build
+#   become: true
 
-- name: Start Kick Off Presentation Container
-  docker_container:
-    image: sed_kick_off:latest
-    name: sed_kickoff
-    ports:
-    - 9000:8000
+# - name: Start Kick Off Presentation Container
+#   docker_container:
+#     image: sed_kick_off:latest
+#     name: sed_kickoff
+#     ports:
+#     - 9000:8000
 
-  become: true
+#   become: true
 
-#------Setup Presentation: Technologies------#
-- name: Create Technology Environment Presentation Image
-  docker_image:
-    name: sed_tech
-    tag: latest
-    path: /vagrant/SED-Documentations/presentations/SED-Presentation2-Technologies/
-    state: build
-  become: true
+# #------Setup Presentation: Technologies------#
+# - name: Create Technology Environment Presentation Image
+#   docker_image:
+#     name: sed_tech
+#     tag: latest
+#     path: /vagrant/SED-Documentations/presentations/SED-Presentation2-Technologies/
+#     state: build
+#   become: true
 
-- name: Start Technologies Environment Presentation Container
-  docker_container:
-    image: sed_tech:latest
-    name: sed_tech
-    ports:
-    - 9001:8001
-  become: true
+# - name: Start Technologies Environment Presentation Container
+#   docker_container:
+#     image: sed_tech:latest
+#     name: sed_tech
+#     ports:
+#     - 9001:8001
+#   become: true
 
-#------Setup Presentation: Application-------#
-- name: Create Training Presentation Image
-  docker_image:
-    name: sed_training
-    tag: latest
-    path: /vagrant/SED-Documentations/presentations/SED-Presentation3-Training/
-    state: build
-  become: true
+# #------Setup Presentation: Application-------#
+# - name: Create Training Presentation Image
+#   docker_image:
+#     name: sed_training
+#     tag: latest
+#     path: /vagrant/SED-Documentations/presentations/SED-Presentation3-Training/
+#     state: build
+#   become: true
 
-- name: Start Training Presentation Container
-  docker_container:
-    image: sed_training:latest
-    name: sed_training
-    ports:
-    - 9002:8002
-  become: true
+# - name: Start Training Presentation Container
+#   docker_container:
+#     image: sed_training:latest
+#     name: sed_training
+#     ports:
+#     - 9002:8002
+#   become: true
 
-#------Setup Presentation: Training-------#
-- name: Create Overview Presentation Image
-  docker_image:
-    name: sed_overview
-    tag: latest
-    path: /vagrant/SED-Documentations/presentations/SED-Presentation4-Overview/
-    state: build
-  become: true
+# #------Setup Presentation: Training-------#
+# - name: Create Overview Presentation Image
+#   docker_image:
+#     name: sed_overview
+#     tag: latest
+#     path: /vagrant/SED-Documentations/presentations/SED-Presentation4-Overview/
+#     state: build
+#   become: true
 
-- name: Start Overview Presentation Container
-  docker_container:
-    image: sed_overview:latest
-    name: sed_overview
-    ports:
-    - 9003:8003
-  become: true
+# - name: Start Overview Presentation Container
+#   docker_container:
+#     image: sed_overview:latest
+#     name: sed_overview
+#     ports:
+#     - 9003:8003
+#   become: true
