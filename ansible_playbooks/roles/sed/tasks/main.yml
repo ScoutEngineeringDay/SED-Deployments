@@ -141,7 +141,7 @@
     - "sed_database"
   become: true
 
-# #------Setup Presentation: Introduction-------#
+#------Setup Presentation: Introduction-------#
 # - name: Create Kick Off Presentation Image
 #   docker_image:
 #     name: sed_kick_off
@@ -149,16 +149,16 @@
 #     path: /vagrant/SED-Documentations/presentations/SED-Presentation1-Kick-Off/
 #     state: build
 #   become: true
-
+#
 # - name: Start Kick Off Presentation Container
 #   docker_container:
 #     image: sed_kick_off:latest
 #     name: sed_kickoff
 #     ports:
 #     - 9000:8000
-
+#
 #   become: true
-
+#
 # #------Setup Presentation: Technologies------#
 # - name: Create Technology Environment Presentation Image
 #   docker_image:
@@ -167,7 +167,7 @@
 #     path: /vagrant/SED-Documentations/presentations/SED-Presentation2-Technologies/
 #     state: build
 #   become: true
-
+#
 # - name: Start Technologies Environment Presentation Container
 #   docker_container:
 #     image: sed_tech:latest
@@ -175,7 +175,7 @@
 #     ports:
 #     - 9001:8001
 #   become: true
-
+#
 # #------Setup Presentation: Application-------#
 # - name: Create Training Presentation Image
 #   docker_image:
@@ -184,7 +184,7 @@
 #     path: /vagrant/SED-Documentations/presentations/SED-Presentation3-Training/
 #     state: build
 #   become: true
-
+#
 # - name: Start Training Presentation Container
 #   docker_container:
 #     image: sed_training:latest
@@ -192,7 +192,7 @@
 #     ports:
 #     - 9002:8002
 #   become: true
-
+#
 # #------Setup Presentation: Training-------#
 # - name: Create Overview Presentation Image
 #   docker_image:
@@ -201,7 +201,7 @@
 #     path: /vagrant/SED-Documentations/presentations/SED-Presentation4-Overview/
 #     state: build
 #   become: true
-
+#
 # - name: Start Overview Presentation Container
 #   docker_container:
 #     image: sed_overview:latest
