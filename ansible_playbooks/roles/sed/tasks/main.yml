@@ -53,22 +53,22 @@
   become: true
 
 #------Setup Application-------#
-- name: Git clone SED-Documentations
-  git:
-    repo: https://github.com/{{documentation.githubOwner}}/SED-Documentations.git
-    dest: /vagrant/SED-Doc
-    accept_hostkey: true
-    update: true
-    version: "{{documentation.githubBranch}}"
+# - name: Git clone SED-Documentations
+#   git:
+#     repo: https://github.com/{{documentation.githubOwner}}/SED-Documentations.git
+#     dest: /vagrant/SED-Doc
+#     accept_hostkey: true
+#     update: true
+#     version: "{{documentation.githubBranch}}"
 
 #------Setup Application-------#
-- name: Git clone SED-Database-test
-  git:
-    repo: https://github.com/{{database.githubOwner}}/SED-Database-Test.git
-    dest: /vagrant/SED-Db-scripts
-    accept_hostkey: true
-    update: true
-    version: "{{database.githubBranch}}"
+# - name: Git clone SED-Database-test
+#   git:
+#     repo: https://github.com/{{database.githubOwner}}/SED-Database-Test.git
+#     dest: /vagrant/SED-Db-scripts
+#     accept_hostkey: true
+#     update: true
+#     version: "{{database.githubBranch}}"
 
 - name: start the mysql container
   docker_container:
@@ -97,19 +97,19 @@
   command: /vagrant/PopulateTestData.sh /vagrant/SED-Db-scripts/{{database.scriptPath}} sed_password sed_database
 
 #------Setup Application-------#
-- name: Git clone SED-Web-Applications
-  git:
-    repo: https://github.com/{{website.githubOwner}}/SED-Web-Application.git
-    dest: /vagrant/SED-Web
-    accept_hostkey: true
-    update: true
-    version: "{{website.githubBranch}}"
+# - name: Git clone SED-Web-Applications
+#   git:
+#     repo: https://github.com/{{website.githubOwner}}/SED-Web-Application.git
+#     dest: /vagrant/SED-Web-Application
+#     accept_hostkey: true
+#     update: true
+#     version: "{{website.githubBranch}}"
 
 - name: create sed image
   docker_image:
     name: sed_image
     tag: latest
-    path: /vagrant/SED-Web/
+    path: /vagrant/SED-Web-Application/
     state: build
   become: true
 
@@ -128,7 +128,7 @@
   docker_image:
     name: sed_kick_off
     tag: latest
-    path: /vagrant/SED-Doc/presentations/SED-Presentation1-Kick-Off/
+    path: /vagrant/SED-Documentations/presentations/SED-Presentation1-Kick-Off/
     state: build
   become: true
 
@@ -146,7 +146,7 @@
   docker_image:
     name: sed_tech
     tag: latest
-    path: /vagrant/SED-Doc/presentations/SED-Presentation2-Technologies/
+    path: /vagrant/SED-Documentations/presentations/SED-Presentation2-Technologies/
     state: build
   become: true
 
@@ -163,7 +163,7 @@
   docker_image:
     name: sed_training
     tag: latest
-    path: /vagrant/SED-Doc/presentations/SED-Presentation3-Training/
+    path: /vagrant/SED-Documentations/presentations/SED-Presentation3-Training/
     state: build
   become: true
 
@@ -180,7 +180,7 @@
   docker_image:
     name: sed_overview
     tag: latest
-    path: /vagrant/SED-Doc/presentations/SED-Presentation4-Overview/
+    path: /vagrant/SED-Documentations/presentations/SED-Presentation4-Overview/
     state: build
   become: true
 
