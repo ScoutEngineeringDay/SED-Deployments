@@ -1,3 +1,6 @@
 # Build and Release Folders
 .vagrant/
 .DS_Store
+/SED-Database-Test/
+/SED-Documentations/
+/SED-Web-Application/
