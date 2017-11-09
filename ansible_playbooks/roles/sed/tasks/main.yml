@@ -53,34 +53,22 @@
   become: true
 
 #------Setup Application-------#
-- name: check SED-db 
-  stat:
-    path: /vagrant/SED-Documentations
-  register: doc_result
-
 - name: Git clone SED-Documentations
   git:
     repo: https://github.com/{{documentation.githubOwner}}/SED-Documentations.git
     dest: /vagrant/SED-Documentations
     accept_hostkey: true
-    update: true
     version: "{{documentation.githubBranch}}"
-  when: doc_result.stat.exists == False
+    update: no
 
 #------Setup Application-------#
-- name: check SED-db 
-  stat:
-    path: /vagrant/SED-Database-Test
-  register: db_result
-
 - name: Git clone SED-Database-test
   git:
     repo: https://github.com/{{database.githubOwner}}/SED-Database-Test.git
     dest: /vagrant/SED-Database-Test
     accept_hostkey: true
-    update: true
     version: "{{database.githubBranch}}"
-  when: db_result.stat.exists == False
+    update: no
 
 - name: start the mysql container
   docker_container:
@@ -109,19 +97,13 @@
   command: /vagrant/PopulateTestData.sh /vagrant/SED-Database-Test/{{database.scriptPath}} sed_password sed_database
 
 #------Setup Application-------#
-- name: check SED-web
-  stat:
-    path: /vagrant/SED-Web-Application
-  register: web_result
-
 - name: Git clone SED-Web-Applications
   git:
     repo: https://github.com/{{website.githubOwner}}/SED-Web-Application.git
     dest: /vagrant/SED-Web-Application
     accept_hostkey: true
-    update: true
     version: "{{website.githubBranch}}"
-  when: web_result.stat.exists == False
+    update: no
 
 - name: create sed image
   docker_image:
