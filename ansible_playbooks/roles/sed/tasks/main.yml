@@ -155,7 +155,7 @@
     image: sed_tech:latest
     name: sed_tech
     ports:
-    - 9001:8001
+    - 9001:8000
   become: true
 
 #------Setup Presentation: Application-------#
@@ -172,7 +172,7 @@
     image: sed_training:latest
     name: sed_training
     ports:
-    - 9002:8002
+    - 9002:8000
   become: true
 
 #------Setup Presentation: Training-------#
@@ -189,5 +189,5 @@
     image: sed_overview:latest
     name: sed_overview
     ports:
-    - 9003:8003
+    - 9003:8000
   become: true
