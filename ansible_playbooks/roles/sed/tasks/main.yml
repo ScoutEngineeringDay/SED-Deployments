@@ -3,6 +3,10 @@
 # Ansible tasks playbook
 
 ---
+- name: Load vars
+  include_vars: 
+    file: "vars/{{ansible_local.common.environment}}.vault.yml"
+
 - name: Install yum package
   yum:
     pkg: "{{ item }}"
@@ -79,8 +83,8 @@
     env:
       MYSQL_DATABASE: SED_Database
       MYSQL_USER: sed_admin
-      MYSQL_PASSWORD: sed_password
-      MYSQL_ROOT_PASSWORD: sed_password
+      MYSQL_PASSWORD: "{{secrets.database.user.password}}"
+      MYSQL_ROOT_PASSWORD: "{{secrets.database.root.password}}"
   become: true
 
 - name: Enable execution of script to populate test data
@@ -94,7 +98,7 @@
     port: 3306
 
 - name: Run SQL scripts to populate the database with test data
-  command: /vagrant/PopulateTestData.sh /vagrant/SED-Database-Test/{{database.scriptPath}} sed_password sed_database
+  command: /vagrant/PopulateTestData.sh /vagrant/SED-Database-Test/{{database.scriptPath}} {{secrets.database.root.password}} sed_database
 
 #------Setup Application-------#
 - name: Git clone SED-Web-Applications

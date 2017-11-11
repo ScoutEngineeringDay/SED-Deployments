@@ -40,6 +40,11 @@ Vagrant.configure("2") do |config|
       vbox.cpus = 2
     end
 
+    sed.vm.provision "shell" do |s|
+	  s.inline = "mkdir -p /etc/ansible/facts.d; cp /vagrant/facts/common.fact /etc/ansible/facts.d/; chmod -x /etc/ansible/facts.d/common.fact"
+	  s.privileged = true
+	end
+
     # Configure Ansible Configuration script
     # Note: run Ansible within the vagrant therefore will not need to install Ansible onto Host machine
     sed.vm.provision "ansible_local" do |ansible|
@@ -48,6 +53,7 @@ Vagrant.configure("2") do |config|
       ansible.playbook = "ansible_playbooks/sed.yml"
       # Display how detail
       ansible.verbose = "vvvv"
+	  ansible.vault_password_file = "ansible-vault.sh"
     end
   end
 end

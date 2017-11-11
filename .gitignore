@@ -1,6 +1,8 @@
 # Build and Release Folders
 .vagrant/
 .DS_Store
+/ansible-vault.txt
+**/*.vault.yml
 /SED-Database-Test/
 /SED-Documentations/
 /SED-Web-Application/
