@@ -4,9 +4,11 @@
 
 #
 Vagrant.configure("2") do |config|
-  # if Vagrant.has_plugin?("vagrant-proxyconf")
-  #   config.proxy.no_proxy = "localhost, 127.0.0.1"
-  # end
+  if Vagrant.has_plugin?("vagrant-proxyconf")
+    config.proxy.http     = ""
+    config.proxy.https    = ""
+    config.proxy.no_proxy = "localhost,127.0.0.1,.example.com"
+  end
   config.ssh.insert_key = false #set same private ssh keys
   config.vm.box_download_insecure = true
   config.vm.synced_folder "./", "/vagrant", type: "virtualbox"
