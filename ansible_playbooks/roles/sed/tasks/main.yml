@@ -109,6 +109,18 @@
     version: "{{website.githubBranch}}"
     update: no
 
+- name: Replace database settings - User password
+  replace:
+    path: /vagrant/SED-Web-Application/SED/database_settings.py
+    regexp: "('PASSWORD':\\s*)'.*'"
+    replace: "\\1'{{secrets.database.user.password}}'"
+
+- name: Replace database settings - root password
+  replace:
+    path: /vagrant/SED-Web-Application/SED/database_settings.py
+    regexp: "('MYSQL_PASSWORD':\\s*)'.*'"
+    replace: "\\1'{{secrets.database.root.password}}'"
+
 - name: create sed image
   docker_image:
     name: sed_image
