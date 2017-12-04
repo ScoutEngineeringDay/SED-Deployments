@@ -191,3 +191,16 @@
     ports:
     - 9003:8000
   become: true
+
+ #chmod +x ./SED-doc-update.sh
+- name: Set permissions to sed-doc-update.sh
+  file: 
+    dest: /vagrant/SED-doc-update.sh 
+    mode: a+x
+  become: true
+
+- name: set permissions to SED-web-update.sh
+  file: 
+    dest: /vagrant/SED-web-update.sh 
+    mode: a+x
+  become: true
