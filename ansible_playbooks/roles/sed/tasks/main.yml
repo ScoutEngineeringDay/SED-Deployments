@@ -194,7 +194,7 @@
     - 9003:8000
   become: true
 
- chmod +x ./SED-doc-update.sh
+#chmod +x ./SED-doc-update.sh
 - name: Set permissions to sed-doc-update.sh
   file: 
     dest: /vagrant/SED-doc-update.sh 
