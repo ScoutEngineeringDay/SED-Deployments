@@ -125,84 +125,84 @@
   command: /vagrant/PopulateTestData.sh /vagrant/SED-Database-Test/{{database.scriptPath}} sed_password sed_database
 
 
-# #------Setup Presentation: Introduction-------#
-# - name: Create Kick Off Presentation Image
-#   docker_image:
-#     name: sed_kick_off
-#     tag: latest
-#     path: /vagrant/SED-Documentations/presentations/SED-Presentation1-Kick-Off/
-#     state: build
-#   become: true
+#------Setup Presentation: Introduction-------#
+- name: Create Kick Off Presentation Image
+  docker_image:
+    name: sed_kick_off
+    tag: latest
+    path: /vagrant/SED-Documentations/presentations/SED-Presentation1-Kick-Off/
+    state: build
+  become: true
 
-# - name: Start Kick Off Presentation Container
-#   docker_container:
-#     image: sed_kick_off:latest
-#     name: sed_kickoff
-#     ports:
-#     - 9000:8000
+- name: Start Kick Off Presentation Container
+  docker_container:
+    image: sed_kick_off:latest
+    name: sed_kickoff
+    ports:
+    - 9000:8000
 
-#   become: true
+  become: true
 
-# #------Setup Presentation: Technologies------#
-# - name: Create Technology Environment Presentation Image
-#   docker_image:
-#     name: sed_tech
-#     tag: latest
-#     path: /vagrant/SED-Documentations/presentations/SED-Presentation2-Technologies/
-#     state: build
-#   become: true
+#------Setup Presentation: Technologies------#
+- name: Create Technology Environment Presentation Image
+  docker_image:
+    name: sed_tech
+    tag: latest
+    path: /vagrant/SED-Documentations/presentations/SED-Presentation2-Technologies/
+    state: build
+  become: true
 
-# - name: Start Technologies Environment Presentation Container
-#   docker_container:
-#     image: sed_tech:latest
-#     name: sed_tech
-#     ports:
-#     - 9001:8000
-#   become: true
+- name: Start Technologies Environment Presentation Container
+  docker_container:
+    image: sed_tech:latest
+    name: sed_tech
+    ports:
+    - 9001:8000
+  become: true
 
-# #------Setup Presentation: Application-------#
-# - name: Create Training Presentation Image
-#   docker_image:
-#     name: sed_training
-#     tag: latest
-#     path: /vagrant/SED-Documentations/presentations/SED-Presentation3-Training/
-#     state: build
-#   become: true
+#------Setup Presentation: Application-------#
+- name: Create Training Presentation Image
+  docker_image:
+    name: sed_training
+    tag: latest
+    path: /vagrant/SED-Documentations/presentations/SED-Presentation3-Training/
+    state: build
+  become: true
 
-# - name: Start Training Presentation Container
-#   docker_container:
-#     image: sed_training:latest
-#     name: sed_training
-#     ports:
-#     - 9002:8000
-#   become: true
+- name: Start Training Presentation Container
+  docker_container:
+    image: sed_training:latest
+    name: sed_training
+    ports:
+    - 9002:8000
+  become: true
 
-# #------Setup Presentation: Training-------#
-# - name: Create Overview Presentation Image
-#   docker_image:
-#     name: sed_overview
-#     tag: latest
-#     path: /vagrant/SED-Documentations/presentations/SED-Presentation4-Overview/
-#     state: build
-#   become: true
+#------Setup Presentation: Training-------#
+- name: Create Overview Presentation Image
+  docker_image:
+    name: sed_overview
+    tag: latest
+    path: /vagrant/SED-Documentations/presentations/SED-Presentation4-Overview/
+    state: build
+  become: true
 
-# - name: Start Overview Presentation Container
-#   docker_container:
-#     image: sed_overview:latest
-#     name: sed_overview
-#     ports:
-#     - 9003:8000
-#   become: true
+- name: Start Overview Presentation Container
+  docker_container:
+    image: sed_overview:latest
+    name: sed_overview
+    ports:
+    - 9003:8000
+  become: true
 
- #chmod +x ./SED-doc-update.sh
-# - name: Set permissions to sed-doc-update.sh
-#   file: 
-#     dest: /vagrant/SED-doc-update.sh 
-#     mode: a+x
-#   become: true
+ chmod +x ./SED-doc-update.sh
+- name: Set permissions to sed-doc-update.sh
+  file: 
+    dest: /vagrant/SED-doc-update.sh 
+    mode: a+x
+  become: true
 
-# - name: set permissions to SED-web-update.sh
-#   file: 
-#     dest: /vagrant/SED-web-update.sh 
-#     mode: a+x
-#   become: true
+- name: set permissions to SED-web-update.sh
+  file: 
+    dest: /vagrant/SED-web-update.sh 
+    mode: a+x
+  become: true
