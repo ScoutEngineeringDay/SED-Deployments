@@ -83,19 +83,6 @@
       MYSQL_ROOT_PASSWORD: sed_password
   become: true
 
-- name: Enable execution of script to populate test data
-  file:
-    path: /ansible/PopulateTestData.sh
-    mode: 0544
-
-- name: Wait for port 3306
-  wait_for:
-    host: 172.17.0.4
-    port: 3306
-
-- name: Run SQL scripts to populate the database with test data
-  command: /ansible/PopulateTestData.sh /ansible/SED-Database-Test/{{database.scriptPath}} sed_password sed_database
-
 #------Setup Application-------#
 - name: Git clone SED-Web-Applications
   git:
@@ -122,6 +109,21 @@
     links:
     - "sed_database"
   become: true
+
+
+- name: Enable execution of script to populate test data
+  file:
+    path: /ansible/PopulateTestData.sh
+    mode: 0544
+
+- name: Wait for port 3306
+  wait_for:
+    host: 172.17.0.4
+    port: 3306
+
+- name: Run SQL scripts to populate the database with test data
+  command: /ansible/PopulateTestData.sh /ansible/SED-Database-Test/{{database.scriptPath}} sed_password sed_database
+
 
 #------Setup Presentation: Introduction-------#
 - name: Create Kick Off Presentation Image
@@ -192,7 +194,7 @@
     - 9003:8000
   become: true
 
- #chmod +x ./SED-doc-update.sh
+#chmod +x ./SED-doc-update.sh
 - name: Set permissions to sed-doc-update.sh
   file: 
     dest: /ansible/SED-doc-update.sh 

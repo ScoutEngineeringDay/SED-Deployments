@@ -5,7 +5,7 @@ website:
 database:
   githubOwner: ScoutEngineeringDay
   githubBranch: master
-  scriptPath: SED_DB_TEST_V2
+  scriptPath: SED_Deploy_DB
 documentation:
   githubOwner: ScoutEngineeringDay
   githubBranch: master
