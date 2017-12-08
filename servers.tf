@@ -30,7 +30,7 @@ resource "aws_instance" "web" {
 	}
 	
 	provisioner "file" {
-		source = "ansible_playbooks/"
+		source = "./content/"
 		destination = "/ansible"
 		connection {
 			user = "ec2-user"
@@ -42,7 +42,7 @@ resource "aws_instance" "web" {
 		inline = [
 			"sudo pip install ansible",
 			"sudo echo 'SED_Dev_Box ansible_connection=local' >> /etc/ansible/hosts",
-			"ansible-playbook /ansible/sed.yml -i 'SED_Dev_Box,' -c local"
+			"ansible-playbook /ansible/ansible_playbooks/sed.yml -i 'SED_Dev_Box,' -c local"
 		]
 		connection {
 			user = "ec2-user"

@@ -1,10 +1,12 @@
 # Build and Release Folders
 .vagrant/
 .DS_Store
-/SED-Database-Test/
-/SED-Documentations/
-/SED-Web-Application/
-/ansible_playbooks/sed.retry
+/content/SED-Database-Test/
+/content/SED-Documentations/
+/content/SED-Web-Application/
+/content/ansible_playbooks/sed.retry
 .terraform/
 *.tfstate
 *.tfstate.backup
+**/*.vault.yml
+*.pem
