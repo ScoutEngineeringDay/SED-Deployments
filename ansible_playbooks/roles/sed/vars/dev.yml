@@ -1,0 +1,7 @@
+---
+secrets:
+  database:
+    user:
+      password: sed_password
+    root:
+      password: sed_password2
