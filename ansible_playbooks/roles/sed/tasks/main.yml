@@ -87,18 +87,6 @@
       MYSQL_ROOT_PASSWORD: "{{secrets.database.root.password}}"
   become: true
 
-- name: Enable execution of script to populate test data
-  file:
-    path: /vagrant/PopulateTestData.sh
-    mode: 0544
-
-- name: Wait for port 3306
-  wait_for:
-    host: 172.17.0.4
-    port: 3306
-
-- name: Run SQL scripts to populate the database with test data
-  command: /vagrant/PopulateTestData.sh /vagrant/SED-Database-Test/{{database.scriptPath}} {{secrets.database.root.password}} sed_database
 
 #------Setup Application-------#
 - name: Git clone SED-Web-Applications
@@ -138,6 +126,21 @@
     links:
     - "sed_database"
   become: true
+
+
+- name: Enable execution of script to populate test data
+  file:
+    path: /vagrant/PopulateTestData.sh
+    mode: 0544
+
+- name: Wait for port 3306
+  wait_for:
+    host: 172.17.0.4
+    port: 3306
+
+- name: Run SQL scripts to populate the database with test data
+  command: /vagrant/PopulateTestData.sh /vagrant/SED-Database-Test/{{database.scriptPath}} {{secrets.database.root.password}} sed_database
+
 
 #------Setup Presentation: Introduction-------#
 - name: Create Kick Off Presentation Image
@@ -206,4 +209,17 @@
     name: sed_overview
     ports:
     - 9003:8000
+  become: true
+
+#chmod +x ./SED-doc-update.sh
+- name: Set permissions to sed-doc-update.sh
+  file: 
+    dest: /vagrant/SED-doc-update.sh 
+    mode: a+x
+  become: true
+
+- name: set permissions to SED-web-update.sh
+  file: 
+    dest: /vagrant/SED-web-update.sh 
+    mode: a+x
   become: true
