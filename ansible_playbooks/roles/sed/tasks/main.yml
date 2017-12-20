@@ -36,7 +36,9 @@
   service:
     name: docker
     state: started
+    enabled: yes
   become: true
+
 
 #------Setup Application-------#
 - name: create docker consul
@@ -74,6 +76,7 @@
   docker_container:
     image: mysql:latest
     name: sed_database
+    restart_policy: always
     ports:
     - 3306:3306
     env:
@@ -117,6 +120,7 @@
   docker_container:
     image: sed_image:latest
     name: sed_website
+    restart_policy: always
     ports:
     - 8000:8000
     links:
