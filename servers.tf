@@ -37,46 +37,44 @@ resource "aws_instance" "web" {
 	ami = "ami-55ef662f"
 	instance_type = "t2.micro"
 	key_name = "terraform-key"
-	timeouts {
-		create = "15m"
-	}
 	
 	security_groups = ["default","${aws_security_group.allow_web.name}"]
+}
+
+resource "aws_eip" "web_eip" {
+	instance = "${aws_instance.web.id}"
+}
+
+resource "null_resource" "web_provision" {
+	triggers {
+		web_ip = "${aws_eip.web_eip.public_ip}"
+	}
+
+	connection {
+		host = "${aws_eip.web_eip.public_ip}"
+		type = "ssh"
+		user = "ec2-user"
+		private_key = "${file("terraform-key.pem")}"
+		agent = false
+	}
 
 	provisioner "remote-exec" {
 		inline = [
 			"sudo mkdir /ansible",
 			"sudo chown ec2-user:ec2-user /ansible"
 		]
-		connection {
-			user = "ec2-user"
-			private_key = "${file("terraform-key.pem")}"
-		}
 	}
 	
 	provisioner "file" {
 		source = "./content/"
 		destination = "/ansible"
-		connection {
-			user = "ec2-user"
-			private_key = "${file("terraform-key.pem")}"
-		}
 	}
 	
 	provisioner "remote-exec" {
 		inline = [
 			"sudo pip install ansible",
 			"sudo echo 'SED_Dev_Box ansible_connection=local' >> /etc/ansible/hosts",
-			"ansible-playbook /ansible/ansible_playbooks/sed.yml -i 'SED_Dev_Box,' -c local"
+			"ansible-playbook /ansible/ansible_playbooks/sed.yml -i 'SED_Dev_Box,' -c local --extra-vars 'host=${aws_eip.web_eip.public_ip}'"
 		]
-		connection {
-			user = "ec2-user"
-			private_key = "${file("terraform-key.pem")}"
-			timeout = "15m"
-		}
 	}
-}
-
-resource "aws_eip" "web_eip" {
-	instance = "${aws_instance.web.id}"
 }

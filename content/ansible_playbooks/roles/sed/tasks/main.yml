@@ -92,6 +92,12 @@
     version: "{{website.githubBranch}}"
     update: no
 
+- name: Set allowed hosts
+  lineinfile:
+    path: /ansible/SED-Web-Application/SED/settings.py
+    regexp: "ALLOWED_HOSTS\\s*="
+    line: "ALLOWED_HOSTS = ['{{ host | default('localhost') }}']"
+
 - name: create sed image
   docker_image:
     name: sed_image
