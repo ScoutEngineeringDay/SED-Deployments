@@ -10,6 +10,29 @@ provider "aws" {
 }
 
 #Provision resources
+resource "aws_security_group" "allow_web" {
+	name = "allow_web"
+
+	ingress {
+		from_port = "8000"
+		to_port = "8000"
+		protocol = "tcp"
+		cidr_blocks = ["0.0.0.0/0"]
+	}
+	ingress {
+		from_port = "80"
+		to_port = "80"
+		protocol = "tcp"
+		cidr_blocks = ["0.0.0.0/0"]
+	}
+	ingress {
+		from_port = "443"
+		to_port = "443"
+		protocol = "tcp"
+		cidr_blocks = ["0.0.0.0/0"]
+	}
+}
+
 resource "aws_instance" "web" {
 	ami = "ami-55ef662f"
 	instance_type = "t2.micro"
@@ -18,6 +41,8 @@ resource "aws_instance" "web" {
 		create = "15m"
 	}
 	
+	security_groups = ["default","${aws_security_group.allow_web.name}"]
+
 	provisioner "remote-exec" {
 		inline = [
 			"sudo mkdir /ansible",
