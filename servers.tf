@@ -51,3 +51,7 @@ resource "aws_instance" "web" {
 		}
 	}
 }
+
+resource "aws_eip" "web_eip" {
+	instance = "${aws_instance.web.id}"
+}
