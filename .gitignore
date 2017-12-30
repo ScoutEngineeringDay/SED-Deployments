@@ -5,6 +5,10 @@
 /content/SED-Documentations/
 /content/SED-Web-Application/
 /content/ansible_playbooks/sed.retry
+/SED-Database-Test/
+/SED-Documentations/
+/SED-Web-Application/
+/ansible_playbooks/sed.retry
 .terraform/
 *.tfstate
 *.tfstate.backup
