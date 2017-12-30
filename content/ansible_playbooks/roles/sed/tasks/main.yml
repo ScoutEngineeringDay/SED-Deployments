@@ -56,7 +56,7 @@
 - name: Git clone SED-Documentations
   git:
     repo: https://github.com/{{documentation.githubOwner}}/SED-Documentations.git
-    dest: /vagrant/SED-Documentations
+    dest: /ansible/SED-Documentations
     accept_hostkey: true
     version: "{{documentation.githubBranch}}"
     update: no
@@ -65,7 +65,7 @@
 - name: Git clone SED-Database-test
   git:
     repo: https://github.com/{{database.githubOwner}}/SED-Database-Test.git
-    dest: /vagrant/SED-Database-Test
+    dest: /ansible/SED-Database-Test
     accept_hostkey: true
     version: "{{database.githubBranch}}"
     update: no
@@ -87,16 +87,22 @@
 - name: Git clone SED-Web-Applications
   git:
     repo: https://github.com/{{website.githubOwner}}/SED-Web-Application.git
-    dest: /vagrant/SED-Web-Application
+    dest: /ansible/SED-Web-Application
     accept_hostkey: true
     version: "{{website.githubBranch}}"
     update: no
+
+- name: Set allowed hosts
+  lineinfile:
+    path: /ansible/SED-Web-Application/SED/settings.py
+    regexp: "ALLOWED_HOSTS\\s*="
+    line: "ALLOWED_HOSTS = ['{{ host | default('localhost') }}']"
 
 - name: create sed image
   docker_image:
     name: sed_image
     tag: latest
-    path: /vagrant/SED-Web-Application/
+    path: /ansible/SED-Web-Application/
     state: build
   become: true
 
@@ -113,7 +119,7 @@
 
 - name: Enable execution of script to populate test data
   file:
-    path: /vagrant/PopulateTestData.sh
+    path: /ansible/PopulateTestData.sh
     mode: 0544
 
 - name: Wait for port 3306
@@ -122,7 +128,7 @@
     port: 3306
 
 - name: Run SQL scripts to populate the database with test data
-  command: /vagrant/PopulateTestData.sh /vagrant/SED-Database-Test/{{database.scriptPath}} sed_password sed_database
+  command: /ansible/PopulateTestData.sh /ansible/SED-Database-Test/{{database.scriptPath}} sed_password sed_database
 
 
 #------Setup Presentation: Introduction-------#
@@ -130,7 +136,7 @@
   docker_image:
     name: sed_kick_off
     tag: latest
-    path: /vagrant/SED-Documentations/presentations/SED-Presentation1-Kick-Off/
+    path: /ansible/SED-Documentations/presentations/SED-Presentation1-Kick-Off/
     state: build
   become: true
 
@@ -148,7 +154,7 @@
   docker_image:
     name: sed_tech
     tag: latest
-    path: /vagrant/SED-Documentations/presentations/SED-Presentation2-Technologies/
+    path: /ansible/SED-Documentations/presentations/SED-Presentation2-Technologies/
     state: build
   become: true
 
@@ -165,7 +171,7 @@
   docker_image:
     name: sed_training
     tag: latest
-    path: /vagrant/SED-Documentations/presentations/SED-Presentation3-Training/
+    path: /ansible/SED-Documentations/presentations/SED-Presentation3-Training/
     state: build
   become: true
 
@@ -182,7 +188,7 @@
   docker_image:
     name: sed_overview
     tag: latest
-    path: /vagrant/SED-Documentations/presentations/SED-Presentation4-Overview/
+    path: /ansible/SED-Documentations/presentations/SED-Presentation4-Overview/
     state: build
   become: true
 
@@ -197,12 +203,12 @@
 #chmod +x ./SED-doc-update.sh
 - name: Set permissions to sed-doc-update.sh
   file: 
-    dest: /vagrant/SED-doc-update.sh 
+    dest: /ansible/SED-doc-update.sh 
     mode: a+x
   become: true
 
 - name: set permissions to SED-web-update.sh
   file: 
-    dest: /vagrant/SED-web-update.sh 
+    dest: /ansible/SED-web-update.sh 
     mode: a+x
   become: true
