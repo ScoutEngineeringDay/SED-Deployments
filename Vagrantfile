@@ -4,9 +4,14 @@
 
 #
 Vagrant.configure("2") do |config|
+  if Vagrant.has_plugin?("vagrant-proxyconf")
+    config.proxy.http     = ""
+    config.proxy.https    = ""
+    config.proxy.no_proxy = "localhost,127.0.0.1,.example.com"
+  end
   config.ssh.insert_key = false #set same private ssh keys
   config.vm.box_download_insecure = true
-  config.vm.synced_folder "./", "/vagrant", type: "virtualbox"
+  config.vm.synced_folder "./", "/ansible", type: "virtualbox"
   # config.vm.define "SED_Vault" do |vault|
   
   # end
@@ -30,7 +35,7 @@ Vagrant.configure("2") do |config|
     sed.vm.network "forwarded_port", guest:9003, host:9003
     sed.ssh.forward_agent = true
 
-    sed.vm.synced_folder ".", "/vagrant", create:true
+    sed.vm.synced_folder "./content", "/ansible", create:true
 
     # Configure Virtualbox VM Specifications
     sed.vm.provider "virtualbox" do |vbox|
@@ -45,7 +50,7 @@ Vagrant.configure("2") do |config|
     sed.vm.provision "ansible_local" do |ansible|
       ansible.limit = 'all'
       # Playbook
-      ansible.playbook = "ansible_playbooks/sed.yml"
+      ansible.playbook = "content/ansible_playbooks/sed.yml"
       # Display how detail
       ansible.verbose = "vvvv"
     end
