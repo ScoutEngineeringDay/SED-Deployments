@@ -3,6 +3,10 @@
 # Ansible tasks playbook
 
 ---
+- name: Load vars
+  include_vars: 
+    file: "vars/{{ansible_local.common.environment}}.vault.yml"
+
 - name: Install yum package
   yum:
     pkg: "{{ item }}"
@@ -79,9 +83,10 @@
     env:
       MYSQL_DATABASE: SED_Database
       MYSQL_USER: sed_admin
-      MYSQL_PASSWORD: sed_password
-      MYSQL_ROOT_PASSWORD: sed_password
+      MYSQL_PASSWORD: "{{secrets.database.user.password}}"
+      MYSQL_ROOT_PASSWORD: "{{secrets.database.root.password}}"
   become: true
+
 
 #------Setup Application-------#
 - name: Git clone SED-Web-Applications
@@ -92,11 +97,25 @@
     version: "{{website.githubBranch}}"
     update: no
 
+<<<<<<< HEAD:content/ansible_playbooks/roles/sed/tasks/main.yml
 - name: Set allowed hosts
   lineinfile:
     path: /ansible/SED-Web-Application/SED/settings.py
     regexp: "ALLOWED_HOSTS\\s*="
     line: "ALLOWED_HOSTS = ['{{ host | default('localhost') }}']"
+=======
+- name: Replace database settings - User password
+  replace:
+    path: /vagrant/SED-Web-Application/SED/database_settings.py
+    regexp: "('PASSWORD':\\s*)'.*'"
+    replace: "\\1'{{secrets.database.user.password}}'"
+
+- name: Replace database settings - root password
+  replace:
+    path: /vagrant/SED-Web-Application/SED/database_settings.py
+    regexp: "('MYSQL_PASSWORD':\\s*)'.*'"
+    replace: "\\1'{{secrets.database.root.password}}'"
+>>>>>>> ffe66469467567aeb3aa91681b12a992db5059e1:ansible_playbooks/roles/sed/tasks/main.yml
 
 - name: create sed image
   docker_image:
@@ -128,8 +147,7 @@
     port: 3306
 
 - name: Run SQL scripts to populate the database with test data
-  command: /ansible/PopulateTestData.sh /ansible/SED-Database-Test/{{database.scriptPath}} sed_password sed_database
-
+  command: /vagrant/PopulateTestData.sh /vagrant/SED-Database-Test/{{database.scriptPath}} {{secrets.database.root.password}} sed_database
 
 #------Setup Presentation: Introduction-------#
 - name: Create Kick Off Presentation Image
