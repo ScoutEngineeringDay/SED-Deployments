@@ -18,7 +18,6 @@
     - python-psycopg2
     - python-setuptools
     - mysql
-    - telnet
   become: true
 
 - name: Install docker-py
