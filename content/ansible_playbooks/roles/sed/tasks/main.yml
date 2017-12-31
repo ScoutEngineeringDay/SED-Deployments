@@ -90,7 +90,6 @@
       MYSQL_ROOT_PASSWORD: "{{secrets.database.root.password}}"
   become: true
 
-
 #------Setup Application-------#
 - name: Git clone SED-Web-Applications
   git:
@@ -136,7 +135,6 @@
     links:
     - "sed_database"
   become: true
-
 
 - name: Enable execution of script to populate test data
   file:
@@ -220,7 +218,7 @@
     - 9003:8000
   become: true
 
-#chmod +x ./SED-doc-update.sh
+#------chmod +x ./SED-doc-update.sh------#
 - name: Set permissions to sed-doc-update.sh
   file: 
     dest: /ansible/SED-doc-update.sh 
