@@ -61,7 +61,8 @@ resource "null_resource" "web_provision" {
 	provisioner "remote-exec" {
 		inline = [
 			"sudo mkdir /ansible",
-			"sudo chown ec2-user:ec2-user /ansible"
+			"sudo chown ec2-user:ec2-user /ansible",
+			"sudo mkdir -p /etc/ansible/facts.d; cat <<<'{\"environment\": \"dev\"}' | sudo tee /etc/ansible/facts.d/common.fact; sudo chmod -x /etc/ansible/facts.d/common.fact"
 		]
 	}
 	
