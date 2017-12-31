@@ -86,6 +86,17 @@
     regexp: "ALLOWED_HOSTS\\s*="
     line: "ALLOWED_HOSTS = ['{{ host | default('localhost') }}']"
 
+- name: get sed_db IP address
+  command: "docker inspect --format '{''{ .NetworkSettings.IPAddress }''}' sed_database"
+  register: sed_db_ip_address
+  become: true
+
+- name: Replace database settings - host address
+  replace:
+    path: /ansible/SED-Web-Application/SED/database_settings.py
+    regexp: "('HOST':\\s*)'.*'"
+    replace: "\\1'{{ sed_db_ip_address.stdout }}'"
+
 - name: Replace database settings - User password
   replace:
     path: /ansible/SED-Web-Application/SED/database_settings.py
@@ -121,11 +132,6 @@
   file:
     path: /ansible/PopulateTestData.sh
     mode: 0544
-
-- name: get sed_db IP address
-  command: "docker inspect --format '{''{ .NetworkSettings.IPAddress }''}' sed_database"
-  register: sed_db_ip_address
-  become: true
 
 - name: wait for sed_db to become ready
   wait_for:
