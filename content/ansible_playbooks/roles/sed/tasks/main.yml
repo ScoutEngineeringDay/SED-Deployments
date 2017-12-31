@@ -20,11 +20,6 @@
     - mysql
   become: true
 
-- name: Install virtualenv
-  pip:
-    name: virtualenv
-  become: true
-
 - name: Install docker-py
   pip:
     name: docker-py
