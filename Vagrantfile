@@ -1,16 +1,17 @@
 # Application: Scout Engineering Day
-# Author: Walter Hiranpat
+# Author: Walter Hiranpat and Phillip Marlow
 # Hashicorp Vagrant
 
 #
 Vagrant.configure("2") do |config|
-  if Vagrant.has_plugin?("vagrant-proxyconf")
-    config.proxy.http     = ""
-    config.proxy.https    = ""
-    config.proxy.no_proxy = "localhost,127.0.0.1,.example.com"
-  end
+  # if Vagrant.has_plugin?("vagrant-proxyconf")
+  #   config.proxy.http     = ""
+  #   config.proxy.https    = ""
+  #   config.proxy.no_proxy = "localhost,127.0.0.1,.example.com"
+  # end
   config.ssh.insert_key = false #set same private ssh keys
   config.vm.box_download_insecure = true
+  config.vm.synced_folder "./", "/vagrant", type: "virtualbox"
   config.vm.synced_folder "./", "/ansible", type: "virtualbox"
   # config.vm.define "SED_Vault" do |vault|
   
@@ -35,7 +36,7 @@ Vagrant.configure("2") do |config|
     sed.vm.network "forwarded_port", guest:9003, host:9003
     sed.ssh.forward_agent = true
 
-    sed.vm.synced_folder "./content", "/ansible", create:true
+    sed.vm.synced_folder "./content", "/ansible", type: "virtualbox", create:true
 
     # Configure Virtualbox VM Specifications
     sed.vm.provider "virtualbox" do |vbox|
@@ -46,9 +47,9 @@ Vagrant.configure("2") do |config|
     end
 
     sed.vm.provision "shell" do |s|
-	  s.inline = "mkdir -p /etc/ansible/facts.d; cp /vagrant/facts/common.fact /etc/ansible/facts.d/; chmod -x /etc/ansible/facts.d/common.fact"
-	  s.privileged = true
-	end
+      s.inline = "mkdir -p /etc/ansible/facts.d; cp /vagrant/facts/common.fact /etc/ansible/facts.d/; chmod -x /etc/ansible/facts.d/common.fact"
+      s.privileged = true
+    end
 
     # Configure Ansible Configuration script
     # Note: run Ansible within the vagrant therefore will not need to install Ansible onto Host machine
@@ -58,7 +59,7 @@ Vagrant.configure("2") do |config|
       ansible.playbook = "content/ansible_playbooks/sed.yml"
       # Display how detail
       ansible.verbose = "vvvv"
-	  ansible.vault_password_file = "ansible-vault.sh"
+	    ansible.vault_password_file = "ansible-vault.sh"
     end
   end
 end
