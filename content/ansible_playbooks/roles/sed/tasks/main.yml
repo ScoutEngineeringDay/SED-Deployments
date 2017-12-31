@@ -43,20 +43,20 @@
     enabled: yes
   become: true
 
+# Not in used
+# #------Setup Application-------#
+# - name: create docker consul
+#   docker_container:
+#     image: consul:latest
+#     name: consul
+#   become: true
 
-#------Setup Application-------#
-- name: create docker consul
-  docker_container:
-    image: consul:latest
-    name: consul
-  become: true
-
-#------Setup Application-------#
-- name: create docker vault
-  docker_container:
-    image: vault:latest
-    name: vault
-  become: true
+# #------Setup Application-------#
+# - name: create docker vault
+#   docker_container:
+#     image: vault:latest
+#     name: vault
+#   become: true
 
 #------Setup Application-------#
 - name: Git clone SED-Documentations
