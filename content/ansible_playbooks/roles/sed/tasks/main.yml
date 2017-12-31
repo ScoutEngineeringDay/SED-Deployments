@@ -18,6 +18,7 @@
     - python-psycopg2
     - python-setuptools
     - mysql
+    - telnet
   become: true
 
 - name: Install docker-py
@@ -121,10 +122,24 @@
     path: /ansible/PopulateTestData.sh
     mode: 0544
 
-- name: Wait for port 3306
+- name: get sed_db IP address
+  command: "docker inspect --format '{''{ .NetworkSettings.IPAddress }''}' sed_database"
+  register: sed_db_ip_address
+  become: true
+
+- name: wait for sed_db to become ready
   wait_for:
-    host: 172.17.0.2
+    host: "{{ sed_db_ip_address.stdout }}"
     port: 3306
+    state: started
+    delay: 5
+    connect_timeout: 15
+    timeout: 30
+
+# - name: Wait for port 3306
+#   wait_for:
+#     host: sed_database
+#     port: 3306
 
 - name: Run SQL scripts to populate the database with test data
   command: /ansible/PopulateTestData.sh /ansible/SED-Database-Test/{{database.scriptPath}} {{secrets.database.root.password}} sed_database
