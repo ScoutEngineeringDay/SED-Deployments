@@ -33,12 +33,23 @@ resource "aws_security_group" "allow_web" {
 	}
 }
 
+resource "aws_security_group" "allow_ssh" {
+	name = "allow_ssh"
+	
+	ingress {
+		from_port = "22"
+		to_port = "22"
+		protocol = "tcp"
+		cidr_blocks = ["0.0.0.0/0"]
+	}
+}
+
 resource "aws_instance" "web" {
 	ami = "ami-55ef662f"
 	instance_type = "t2.micro"
 	key_name = "terraform-key"
 	
-	security_groups = ["default","${aws_security_group.allow_web.name}"]
+	security_groups = ["default","${aws_security_group.allow_web.name}","${aws_security_group.allow_ssh.name}"]
 }
 
 resource "aws_eip" "web_eip" {
@@ -75,7 +86,8 @@ resource "null_resource" "web_provision" {
 		inline = [
 			"sudo pip install ansible",
 			"sudo echo 'SED_Dev_Box ansible_connection=local' >> /etc/ansible/hosts",
-			"ansible-playbook /ansible/ansible_playbooks/sed.yml -i 'SED_Dev_Box,' -c local --extra-vars 'host=${aws_eip.web_eip.public_ip}'"
+			"ansible-playbook /ansible/ansible_playbooks/sed.yml -i 'SED_Dev_Box,' -c local --extra-vars 'host=${aws_eip.web_eip.public_ip}' --vault-password-file /ansible/ansible-vault.txt",
+			"rm /ansible/ansible-vault.txt"
 		]
 	}
 }
