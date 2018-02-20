@@ -1,6 +1,6 @@
 # SED-Deployments
 
-This program is in development and is to be used for the Mitre Scout Engineering Day as a Registration Web Service. The front end of the registration service and is written in HTML, JavaScript, Python and CSS; while to back end is done using MySQL. Anyone who would like to help with development please contact Ryan Dufrene at rdufrene@mitre.org, or Walter Hiranpat at whiranpat@mitre.org.
+This program is used to create a Vagrant mechine to host the Scount Engineering Day Web Application. Anyone who would like to help with development please contact Ryan Dufrene at rdufrene@mitre.org, or Walter Hiranpat at whiranpat@mitre.org.
 
 
 # Installation
