@@ -13,8 +13,6 @@ This program is in development and is to be used for the Mitre Scout Engineering
 
 ### The following are some useful tools:
 - [MySQL workbench](http://dev.mysql.com/downloads/workbench/)
-- [MySQL_connector](https://dev.mysql.com/downloads/connector/c/6.0.html)(**Hint:** Make sure compatible with Python version)
-- [MySQL_python](https://pypi.python.org/pypi/MySQL-python/1.2.5)(**Hint:** Make sure compatible with Python version)
 
 
 ## Contributing
