@@ -60,10 +60,10 @@ Secrets files are named `*.vault.yml` and must all have the same password for de
 
 ## URLs:
 
-- Local host urls:
-* [http://localhost:8080/](http://localhost:8000/): Local Website Home Page
-* [http://localhost:8080/admin/](http://localhost:8000/admin/): Local	Admin Page
+* Local host urls:
+  - [http://localhost:8080/](http://localhost:8000/): Local Website Home Page
+  - [http://localhost:8080/admin/](http://localhost:8000/admin/): Local	Admin Page
 
-- Main Test Website url:
-* [http://www.sedteam.com/](http://www.sedteam.com/): Website Home Page
-* [http://www.sedteam.com/admin/](http://www.sedteam.com:/admin/): Website Admin Page
+* Main Test Website url:
+  - [http://www.sedteam.com/](http://www.sedteam.com/): Website Home Page
+  - [http://www.sedteam.com/admin/](http://www.sedteam.com:/admin/): Website Admin Page
